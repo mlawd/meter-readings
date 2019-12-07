@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeterReading.Api", "MeterReading.Api\MeterReading.Api.csproj", "{193112E6-BA2A-4D74-8E7E-D07267E1493F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeterReader.Api", "MeterReader.Api\MeterReader.Api.csproj", "{193112E6-BA2A-4D74-8E7E-D07267E1493F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeterReading.Test", "MeterReading.Test\MeterReading.Test.csproj", "{FD5C15C6-4E26-4A0F-AA5D-E85355B51525}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeterReader.Test", "MeterReader.Test\MeterReader.Test.csproj", "{FD5C15C6-4E26-4A0F-AA5D-E85355B51525}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

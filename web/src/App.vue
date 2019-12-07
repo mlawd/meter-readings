@@ -1,61 +1,80 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-content>
-      <HelloWorld/>
+    <v-content class="fill-height">
+      <v-row class="fill-height" justify="center" align="center">
+        <v-col md="4">
+          <v-file-input
+            accept=".csv"
+            label="Upload CSV"
+            prepend-icon="mdi-file-table"
+            v-on:change="upload"
+          />
+        </v-col>
+      </v-row>
+      <v-dialog v-model="showDialog" max-width="400px">
+        <v-card>
+          <v-card-title v-if="!response">Uploading</v-card-title>
+          <v-card-title v-else>Success!</v-card-title>
+          <v-card-text>
+            <v-row>
+              <v-col align="center" v-if="!response">
+                <v-progress-circular indeterminate />
+              </v-col>
+              <v-col align="center" v-else>
+                <table>
+                  <tr>
+                    <td>Successful:</td><td>{{ response.successfulEntries }}</td>
+                  </tr>
+                  <tr>
+                    <td>Failed:</td><td>{{ response.failedEntries }}</td>
+                  </tr>
+                </table>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import Vue from "vue";
+import axios from "axios";
 
 export default Vue.extend({
-  name: 'App',
-
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      showDialog: false,
+      response: null
+    };
   },
+  methods: {
+    upload: async function(file: File) {
+      if (!file) return;
 
-  data: () => ({
-    //
-  }),
+      this.showDialog = true;
+      this.response = null;
+
+      const form = new FormData();
+      form.append("csv", file);
+
+      this.response = (await axios.post(
+        "http://localhost:5000/api/upload",
+        form,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      )).data;
+    }
+  }
 });
 </script>
+
+<style>
+.fill-height {
+  height: 100vh;
+}
+</style>
